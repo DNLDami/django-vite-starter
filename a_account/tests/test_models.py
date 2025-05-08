@@ -3,9 +3,26 @@ from django.contrib.auth.models import User
 from a_account.models import Profile
 from django.templatetags.static import static
 from django.core.files.uploadedfile import SimpleUploadedFile
+import shutil
+import tempfile
+import os
+from django.conf import settings
+
+@pytest.fixture(autouse=True)
+def temp_media_root(settings):
+    # Create a temporary directory for MEDIA_ROOT
+    temp_dir = tempfile.mkdtemp()
+    settings.MEDIA_ROOT = temp_dir  # Override MEDIA_ROOT for tests
+
+    yield  # Run the test
+
+    # Cleanup: remove the entire temporary MEDIA_ROOT directory after test
+    if os.path.exists(temp_dir):
+        shutil.rmtree(temp_dir)
 
 
 @pytest.mark.django_db
+@pytest.mark.usefixtures('temp_media_root')
 class TestProfileModel:
     
     @pytest.fixture(autouse=True)
