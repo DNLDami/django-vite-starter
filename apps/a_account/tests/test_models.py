@@ -1,6 +1,6 @@
 import pytest 
 from django.contrib.auth.models import User
-from a_account.models import Profile
+from apps.a_account.models import Profile
 from django.templatetags.static import static
 from django.core.files.uploadedfile import SimpleUploadedFile
 import shutil
