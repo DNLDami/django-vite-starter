@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+
+# Django static files
+staticfiles/
+
+# Python cache and environment
+__pycache__/
+*.py[cod]
+*.sqlite3
+.env
+
+# Virtual environment
+venv/
+
+unused-requirements.txt

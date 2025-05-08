@@ -1,0 +1,8 @@
+{
+  "vite_entry_point/entry_point.js": {
+    "file": "js/main.js",
+    "name": "test",
+    "src": "vite_entry_point/entry_point.js",
+    "isEntry": true
+  }
+}
