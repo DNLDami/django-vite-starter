@@ -1,7 +1,11 @@
 {
+  "style.css": {
+    "file": "css/style.css",
+    "src": "style.css"
+  },
   "vite_entry_point/entry_point.js": {
     "file": "js/main.js",
-    "name": "test",
+    "name": "asset",
     "src": "vite_entry_point/entry_point.js",
     "isEntry": true
   }
