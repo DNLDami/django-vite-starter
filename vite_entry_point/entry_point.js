@@ -35,18 +35,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (toggleDarkModeDesktop.checked) {
             root.classList.add('dark');
             localStorage.setItem('theme', 'dark');
+            toggleDarkModeMobile.checked = true;
         } else {
             root.classList.remove('dark');
             localStorage.setItem('theme', 'light');
+            toggleDarkModeMobile.checked = false;
         }
     });
     toggleDarkModeMobile.addEventListener('change', () => {
         if (toggleDarkModeMobile.checked) {
             root.classList.add('dark');
             localStorage.setItem('theme', 'dark');
+            toggleDarkModeDesktop.checked = true;
         } else {
             root.classList.remove('dark');
             localStorage.setItem('theme', 'light');
+            toggleDarkModeDesktop.checked = false;
         }
     });
 });
