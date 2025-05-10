@@ -7,37 +7,42 @@
         </a>
         <!-- Desktop Menu -->
         <ul class="hidden items-center gap-2 sm:flex">
-            <li><a href="#" class="font-medium text-on-surface underline-offset-2 hover:text-primary focus:outline-hidden focus:underline dark:text-on-surface-dark dark:hover:text-primary-dark hover:bg-surface-dark-alt/5 focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:hover:bg-surface-alt/5 dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong p-3 rounded-sm">Home</a></li>
-            <!-- User Pic -->
-            <li x-data="{ userDropDownIsOpen: false, openWithKeyboard: false }" x-on:keydown.esc.window="userDropDownIsOpen = false, openWithKeyboard = false" class="relative flex items-center hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong py-1 px-4 rounded-sm group">
-                <button x-on:click="userDropDownIsOpen = ! userDropDownIsOpen" x-bind:aria-expanded="userDropDownIsOpen" x-on:keydown.space.prevent="openWithKeyboard = true" x-on:keydown.enter.prevent="openWithKeyboard = true" x-on:keydown.down.prevent="openWithKeyboard = true" class="rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark cursor-pointer flex items-center gap-2" aria-controls="userMenu">
-                    <img src="https://penguinui.s3.amazonaws.com/component-assets/avatar-8.webp" alt="User Profile" class="size-10 rounded-full object-cover" />
-                    <span class='font-medium text-on-surface underline-offset-2 group-hover:text-primary focus:outline-hidden focus:underline dark:text-on-surface-dark dark:group-hover:text-primary-dark'>username</span>
-                </button>
-                <!-- User Dropdown -->
-                <ul x-cloak x-show="userDropDownIsOpen || openWithKeyboard" x-transition.opacity x-trap="openWithKeyboard" x-on:click.outside="userDropDownIsOpen = false, openWithKeyboard = false" x-on:keydown.down.prevent="$focus.wrap().next()" x-on:keydown.up.prevent="$focus.wrap().previous()" id="userMenu" class="absolute right-0 top-12 flex w-fit min-w-48 flex-col overflow-hidden rounded-radius border border-outline bg-surface-alt py-1.5 dark:border-outline-dark dark:bg-surface-dark-alt">
-                    <li class="border-b border-outline dark:border-outline-dark">
-                        <div class="flex flex-col px-4 py-2">	
-                            <span class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">Alice Brown</span>
-                            <p class="text-xs text-on-surface dark:text-on-surface-dark">alice.brown@gmail.com</p>
-                        </div>
-                    </li>
-                    <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">My Profile</a></li>
-                    <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">Edit Profile</a></li>
-                    <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">Settings</a></li>
-                    <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">
-                    <!-- Toggle Success -->
-                    <label for="toggleDarkMode" class="inline-flex items-center justify-between gap-3 w-full">
-                        <input id="toggleDarkMode" type="checkbox" class="peer sr-only" role="switch" />
-                        <span class="trancking-wide text-xs font-medium text-on-surface peer-checked:text-on-surface-strong peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-on-surface-dark dark:peer-checked:text-on-surface-dark-strong">Dark Mode</span>
-                        <div class="relative h-5 w-9 after:h-4 after:w-4 peer-checked:after:translate-x-4 rounded-full border border-outline bg-surface-alt after:absolute after:bottom-0 after:left-[0.0625rem] after:top-0 after:my-auto after:rounded-full after:bg-on-surface after:transition-all after:content-[''] peer-checked:bg-success peer-checked:after:bg-on-success peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-outline-strong peer-focus:peer-checked:outline-success peer-active:outline-offset-0 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:border-outline-dark dark:bg-surface-dark-alt dark:after:bg-on-surface-dark dark:peer-checked:bg-success dark:peer-checked:after:bg-on-success dark:peer-focus:outline-outline-dark-strong dark:peer-focus:peer-checked:outline-success" aria-hidden="true"></div>
-                    </label>
+            {% if request.user.is_authenticated %}
+                <li><a href="#" class="font-medium text-on-surface underline-offset-2 hover:text-primary focus:outline-hidden focus:underline dark:text-on-surface-dark dark:hover:text-primary-dark hover:bg-surface-dark-alt/5 focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:hover:bg-surface-alt/5 dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong p-3 rounded-sm">Home</a></li>
+                <!-- User Pic -->
+                <li x-data="{ userDropDownIsOpen: false, openWithKeyboard: false }" x-on:keydown.esc.window="userDropDownIsOpen = false, openWithKeyboard = false" class="relative flex items-center hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong py-1 px-4 rounded-sm group">
+                    <button x-on:click="userDropDownIsOpen = ! userDropDownIsOpen" x-bind:aria-expanded="userDropDownIsOpen" x-on:keydown.space.prevent="openWithKeyboard = true" x-on:keydown.enter.prevent="openWithKeyboard = true" x-on:keydown.down.prevent="openWithKeyboard = true" class="rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark cursor-pointer flex items-center gap-2" aria-controls="userMenu">
+                        <img src="{{user.profile.avatar}}" alt="User Profile" class="size-10 rounded-full object-cover" />
+                        <span class='font-medium text-on-surface underline-offset-2 group-hover:text-primary focus:outline-hidden focus:underline dark:text-on-surface-dark dark:group-hover:text-primary-dark'>{{user.username}}</span>
+                    </button>
+                    <!-- User Dropdown -->
+                    <ul x-cloak x-show="userDropDownIsOpen || openWithKeyboard" x-transition.opacity x-trap="openWithKeyboard" x-on:click.outside="userDropDownIsOpen = false, openWithKeyboard = false" x-on:keydown.down.prevent="$focus.wrap().next()" x-on:keydown.up.prevent="$focus.wrap().previous()" id="userMenu" class="absolute right-0 top-12 flex w-fit min-w-48 flex-col overflow-hidden rounded-radius border border-outline bg-surface-alt py-1.5 dark:border-outline-dark dark:bg-surface-dark-alt">
+                        <li class="border-b border-outline dark:border-outline-dark">
+                            <div class="flex flex-col px-4 py-2">	
+                                <span class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">{{user.profile.name}}</span>
+                                <p class="text-xs text-on-surface dark:text-on-surface-dark">{{user.email}}</p>
+                            </div>
+                        </li>
+                        <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">My Profile</a></li>
+                        <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">Edit Profile</a></li>
+                        <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">Settings</a></li>
+                        <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">
+                        <!-- Toggle dark mode -->
+                        <label for="toggleDarkMode" class="inline-flex items-center justify-between gap-3 w-full">
+                            <input id="toggleDarkMode" type="checkbox" class="peer sr-only" role="switch" />
+                            <span class="trancking-wide text-xs font-medium text-on-surface peer-checked:text-on-surface-strong peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-on-surface-dark dark:peer-checked:text-on-surface-dark-strong">Dark Mode</span>
+                            <div class="relative h-5 w-9 after:h-4 after:w-4 peer-checked:after:translate-x-4 rounded-full border border-outline bg-surface-alt after:absolute after:bottom-0 after:left-[0.0625rem] after:top-0 after:my-auto after:rounded-full after:bg-on-surface after:transition-all after:content-[''] peer-checked:bg-success peer-checked:after:bg-on-success peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-outline-strong peer-focus:peer-checked:outline-success peer-active:outline-offset-0 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:border-outline-dark dark:bg-surface-dark-alt dark:after:bg-on-surface-dark dark:peer-checked:bg-success dark:peer-checked:after:bg-on-success dark:peer-focus:outline-outline-dark-strong dark:peer-focus:peer-checked:outline-success" aria-hidden="true"></div>
+                        </label>
 
-                    
-                    </a></li>
-                    <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">Sign Out</a></li>
-                </ul>
-            </li>
+                        
+                        </a></li>
+                        <li><a href="#" class="block bg-surface-alt px-4 py-2 text-sm text-on-surface hover:bg-surface-dark-alt/5 hover:text-on-surface-strong focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:text-on-surface-dark dark:hover:bg-surface-alt/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong">Sign Out</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="#" class="font-medium text-on-surface underline-offset-2 hover:text-primary focus:outline-hidden focus:underline dark:text-on-surface-dark dark:hover:text-primary-dark hover:bg-surface-dark-alt/5 focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:hover:bg-surface-alt/5 dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong p-3 rounded-sm">Login</a></li>
+                <li><a href="#" class="font-medium text-on-surface underline-offset-2 hover:text-primary focus:outline-hidden focus:underline dark:text-on-surface-dark dark:hover:text-primary-dark hover:bg-surface-dark-alt/5 focus-visible:bg-surface-dark-alt/10 focus-visible:text-on-surface-strong focus-visible:outline-hidden dark:bg-surface-dark-alt dark:hover:bg-surface-alt/5 dark:focus-visible:bg-surface-alt/10 dark:focus-visible:text-on-surface-dark-strong p-3 rounded-sm">Sign Up</a></li>
+            {% endif %}
         </ul>
         <!-- Mobile Menu Button -->
         <button x-on:click="mobileMenuIsOpen = !mobileMenuIsOpen" x-bind:aria-expanded="mobileMenuIsOpen" x-bind:class="mobileMenuIsOpen ? 'fixed top-6 right-6 z-20' : null" type="button" class="flex text-on-surface dark:text-on-surface-dark sm:hidden" aria-label="mobile menu" aria-controls="mobileMenu">
@@ -70,44 +75,6 @@
             <li class="mt-4 w-full border-none"><a href="#" class="rounded-radius bg-primary border-primary px-4 py-2 block text-center font-medium tracking-wide text-on-primary hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">Sign Out</a></li>
         </ul>
     </nav>
-
-
-    {% comment %} <div>
-        <a class="flex items-center gap-2" href="/">
-            <img class="h-6" src="/static/images/logo.svg" alt="Logo"/>
-            <span class="text-lg font-bold">Project Title</span>
-        </a>
-    </div>
-    <nav class="block bg-gray-800 relative">
-        <ul class="navitems flex items-center justify-between h-full">
-            {% if request.user.is_authenticated %}
-            <li><a href="/">Home</a></li>
-            <li x-data="{ dropdownOpen: false }" class="relative">
-                <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="cursor-pointer select-none">
-                    <img class="h-8 w-8 rounded-full object-cover" src=""/>
-                    Username
-                    <img x-bind:class="dropdownOpen && 'rotate-180 duration-300'" class="w-4" src="https://img.icons8.com/small/32/777777/expand-arrow.png"/>
-                </a>
-                <div x-show="dropdownOpen" x-cloak class="absolute right-0 bg-white text-black shadow rounded-lg w-40 p-2 z-20"
-                x-transition:enter="duration-300 ease-out"
-                x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
-                x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                >
-                    <ul class="hoverlist [&>li>a]:justify-end">
-                        <li><a href="">My Profile</a></li>
-                        <li><a href="">Edit Profile</a></li>
-                        <li><a href="">Settings</a></li>
-                        <li><a href="">Log Out</a></li>
-                    </ul>
-                </div>
-            </li>
-            
-            {% else %}
-            <li><a href="">Login</a></li>
-            <li><a href="">Signup</a></li>
-            {% endif %}
-        </ul>
-    </nav> {% endcomment %}
 </header>
 
 
