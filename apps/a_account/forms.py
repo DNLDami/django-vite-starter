@@ -1,5 +1,6 @@
 from django import forms
 from apps.a_account.models import Profile
+from django.contrib.auth.models import User
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -10,3 +11,9 @@ class ProfileForm(forms.ModelForm):
             'displayname': forms.TextInput(attrs={'placeholder': 'Add display name...'}),
             'info': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add information'})
         }
+
+class EmailForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+    class Meta:
+        model = User
+        fields = ['email']

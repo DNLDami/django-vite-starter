@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     
     'django_vite',
     
+    'django_htmx',
+    
     'apps.a_home',
     'apps.a_account',
     
@@ -45,6 +47,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Allauth account middleware:
     "allauth.account.middleware.AccountMiddleware",
+    # Django htmx middleware:
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'a_core.urls'
@@ -145,5 +149,5 @@ DJANGO_VITE = {
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']

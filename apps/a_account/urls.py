@@ -8,5 +8,7 @@ urlpatterns = [
     path('edit/', views.profile_edit_view, name='profile-edit-view'),
     path('onboarding/', views.profile_edit_view, name='profile-onboarding'),
     path('settings/', views.profile_settings_view, name='profile-settings'),
+    path('emailchange/', views.profile_email_change, name='profile-emailchange'),
+    path('emailverify/', views.profile_email_verify, name='profile-emailverify'),
 ]
 
