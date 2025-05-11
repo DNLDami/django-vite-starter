@@ -1,0 +1,28 @@
+{% extends 'layouts/box.html' %}
+
+{% block content %}
+{% if onboarding %}
+    <h1 class="mb-4 dark:text-on-surface-dark">Complete your Profile</h1>
+{% else %}
+    <h1 class="mb-4 dark:text-on-surface-dark">Edit your Profile</h1>
+{% endif %}
+
+<div class="text-center flex flex-col items-center">
+    <img id="avatar" class="w-36 h-36 rounded-full object-cover my-4" src="{{ user.profile.avatar }}" />
+    <div class="text-center max-w-md ">
+        <h1 id="displayname">{{ user.profile.displayname|default:"" }}</h1>
+        <div class="text-gray-400 mb-2 -mt-3 dark:text-on-surface-dark">@{{ user.username }}</div>
+    </div>
+</div>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark" >Submit</button>
+    {% if onboarding %}
+    <a class="whitespace-nowrap bg-transparent rounded-radius border border-primary px-4 py-2 text-sm font-medium tracking-wide text-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-primary-dark dark:text-primary-dark dark:focus-visible:outline-primary-dark" href="{% url 'home' %}">Skip</a>
+    {% else %}
+    <a class="whitespace-nowrap bg-transparent rounded-radius border border-primary px-4 py-2 text-sm font-medium tracking-wide text-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-primary-dark dark:text-primary-dark dark:focus-visible:outline-primary-dark" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+    {% endif %}
+</form>
+
+{% endblock %}

@@ -28,7 +28,7 @@ class TestProfileModel:
     @pytest.fixture(autouse=True)
     def setUp(self):
         self.user = User.objects.create_user('testuser', password='password123')
-        self.profile = Profile.objects.create(user=self.user)
+        self.profile = self.user.profile
     
     def test_name_property_with_diplayname_and_without_displayname(self):
         '''Tests that the name property is username when displayname is not given and profile obj returns username'''

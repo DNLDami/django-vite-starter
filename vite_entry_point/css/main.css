@@ -39,3 +39,54 @@
     /* border radius */
     --radius-radius: var(--radius-sm);
 }
+
+[x-cloak] { 
+    display: none !important; 
+}
+h1 {
+    @apply text-4xl font-bold mb-4
+}
+h2 {
+    @apply text-xl font-bold mb-2
+}
+p {
+    @apply mb-4
+}
+
+.allauth content a {
+    @apply underline underline-offset-2
+}
+.allauth content a:hover {
+    @apply text-indigo-500
+}
+.allauth form[action="/accounts/signup/"] ul {
+    @apply hidden
+}
+.allauth form[action="/accounts/signup/"] ul.errorlist {
+    @apply block
+}
+.allauth .helptext {
+    @apply block mt-4
+}
+.allauth form > button{
+    @apply whitespace-nowrap rounded-radius bg-danger border border-danger px-4 py-2 text-sm font-medium tracking-wide text-on-danger transition hover:opacity-75 text-center cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-danger dark:border-danger dark:text-on-danger dark:focus-visible:outline-danger
+}
+input[type=file] {
+    @apply bg-white pl-0
+}
+.textarea, textarea, input {
+    @apply w-full rounded-lg py-4 px-5 bg-gray-100
+}
+.errorlist li {
+    @apply p-1 pl-4 border-l-red-500 border-l-4 border-solid mb-2 text-red-500
+}
+label[for="id_remember"] {
+    @apply inline-block w-auto mr-2
+}
+input[name="remember"] {
+    @apply w-auto
+}
+.alert-info { @apply bg-blue-300 }
+.alert-success { @apply bg-green-400 }
+.alert-warning { @apply bg-amber-400 }
+.alert-danger { @apply bg-amber-500 }
