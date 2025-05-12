@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from allauth.account.utils import send_email_confirmation
+from django.contrib.auth import logout
 
 
 @login_required
@@ -76,3 +77,14 @@ def profile_email_verify(request):
     send_email_confirmation(request, request.user)
     return redirect('profile-settings')
 
+
+@login_required
+def profile_deactivate_view(request):
+    user = request.user 
+    if request.method == 'POST':
+        logout(request)
+        user.is_active = False
+        user.save()
+        messages.success(request, 'Account deactivated')
+        return redirect('home')
+    return render(request, 'a_account/profile_deactivate.html')
