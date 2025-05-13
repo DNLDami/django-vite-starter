@@ -17,7 +17,7 @@ def profile_view(request, username=None):
             profile = request.user.profile
         except:
             return redirect('account_login')
-    return render(request, 'a_account\profile.html', {'profile':profile})
+    return render(request, 'a_account/profile.html', {'profile':profile})
 
 
 @login_required

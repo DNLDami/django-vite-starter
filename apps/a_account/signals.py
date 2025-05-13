@@ -13,6 +13,14 @@ def create_profile_on_user_created(sender, instance, created, **kwargs):
         Profile.objects.create(
             user=user
         )
+        print(f"Signal: Creating Profile user {instance}")
+        if not EmailAddress.objects.get_primary(user):
+            EmailAddress.objects.create(
+                user = user,
+                email = user.email,
+                primary = True,
+                verified = False
+            )
     else:
         try:
             email_address = EmailAddress.objects.get_primary(user)
@@ -28,8 +36,11 @@ def create_profile_on_user_created(sender, instance, created, **kwargs):
                 primary = True,
                 verified = False
             )
+            print(f"Signal: Creating EmailAddress for user {instance}")
         
 @receiver(pre_save, sender=User)
-def username_to_lowercase_on_save(sender, instance, **kwargs):
+def username_and_email_to_lowercase_on_save(sender, instance, **kwargs):
     if instance.username:
         instance.username = instance.username.lower()
+    if instance.email:
+        instance.email = instance.email.lower()
