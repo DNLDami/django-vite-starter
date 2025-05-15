@@ -13,10 +13,11 @@ def profile_view(request, username=None):
     if username:
         profile = get_object_or_404(User, username=username).profile
     else:
-        try:
-            profile = request.user.profile
-        except:
-            return redirect('account_login')
+        profile = request.user.profile
+        # try:
+        #     profile = request.user.profile
+        # except:
+        #     return redirect('account_login')
     return render(request, 'a_account/profile.html', {'profile':profile})
 
 
@@ -28,9 +29,9 @@ def profile_edit_view(request):
         form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return redirect('profile-view')
+            return redirect('a_account:profile-view')
         
-    if request.path == reverse('profile-onboarding'):
+    if request.path == reverse('a_account:profile-onboarding'):
         onboarding = True
     else:
         onboarding = False
@@ -59,23 +60,23 @@ def profile_email_change(request):
             email = form.cleaned_data['email']
             if User.objects.filter(email=email).exclude(id=request.user.id).exists():
                 messages.warning(request, f'{email} is not available.')
-                return redirect('profile-settings')
+                return redirect('a_account:profile-settings')
             form.save()
             # then signal updates email address and set verified to false on the all auth table
             
             # then send confirmation email
             send_email_confirmation(request, request.user)
-            return redirect('profile-settings')
+            return redirect('a_account:profile-settings')
         else:
             messages.warning(request, 'Form not valid')
-            return redirect('profile-settings')
+            return redirect('a_account:profile-settings')
     return redirect('home')
 
 
 @login_required
 def profile_email_verify(request):
     send_email_confirmation(request, request.user)
-    return redirect('profile-settings')
+    return redirect('a_account:profile-settings')
 
 
 @login_required

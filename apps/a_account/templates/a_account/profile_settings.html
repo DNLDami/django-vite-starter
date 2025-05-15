@@ -16,7 +16,7 @@
             <td class="pt-4 pb-1 px-6">
                 <a id="email-edit" 
                     class="font-medium text-blue-600 hover:underline cursor-pointer"
-                    hx-get="{% url 'profile-emailchange' %}"
+                    hx-get="{% url 'a_account:profile-emailchange' %}"
                     hx-target="#email-address"
                     hx-swap="innerHTML"
                 >
@@ -34,7 +34,7 @@
                 {% endif %}
             </td>
             <td class="px-6 pb-4">
-                <a href="{% url 'profile-emailverify' %}" class="font-medium text-blue-600 hover:underline">
+                <a href="{% url 'a_account:profile-emailverify' %}" class="font-medium text-blue-600 hover:underline">
                     {% if not user.emailaddress_set.first.verified %}Verify{% endif %}
                 </a>
             </td>
@@ -48,7 +48,7 @@
                 Once deactivated, you can no longer access the site unless reactivated.
             </td>
             <td class="px-6 py-4">
-                <a href="{% url 'profile-deactivate-view' %}" class="font-medium text-red-600 hover:underline">
+                <a href="{% url 'a_account:profile-deactivate-view' %}" class="font-medium text-red-600 hover:underline">
                     Deactivate
                 </a>
             </td>

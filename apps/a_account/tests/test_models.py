@@ -6,7 +6,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 import shutil
 import tempfile
 import os
-from django.conf import settings
 
 @pytest.fixture(autouse=True)
 def temp_media_root(settings):

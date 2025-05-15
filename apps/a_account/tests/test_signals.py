@@ -36,10 +36,14 @@ class TestUserSignal:
         assert email_address.email == self.user.email
         assert email_address.verified == False
         
+        # Delete the EmailAddress to simulate missing primary email address
+        EmailAddress.objects.get_primary(self.user).delete()
+        
         # when user email is changed EmailAddress should be updated and unverified
         self.user.email = 'newemail@testmail.com'
         self.user.save()
-        email_address.refresh_from_db()
+        # email_address.refresh_from_db()
+        email_address = EmailAddress.objects.get_primary(self.user)
         assert email_address.email == 'newemail@testmail.com'
         assert email_address.verified == False
     
