@@ -54,17 +54,11 @@ def profile_settings_view(request):
             if form.is_valid():
                 form.save()
                 # then signal updates email address and set verified to false on the all auth table
-                
                 # then send confirmation email
                 send_email_confirmation(request, request.user)
                 return redirect('a_account:profile-settings')
             else:
-                if 'email' in form.errors:
-                    form_error = form.errors['email']
-                    return render(request, 'a_account/profile_settings.html', {'form_error':form_error})
-                else:
-                    messages.warning(request, 'Form not valid')
-                    return redirect('a_account:profile-settings')
+                return render(request, 'a_account/profile_settings.html', {'email_form':form})
         else:
             return redirect('home')
         
@@ -79,13 +73,7 @@ def profile_settings_view(request):
                 form.save()
                 return redirect('a_account:profile-settings')
             else:
-                if 'username' in form.errors:
-                    form_error = form.errors['username']
-                    return render(request, 'a_account/profile_settings.html', {'form_error':form_error})
-                    
-                else:
-                    messages.warning(request, 'Form not valid')
-                    return redirect('a_account:profile-settings')
+                return render(request, 'a_account/profile_settings.html', {'username_form':form})
         else:
             return redirect('home')
         

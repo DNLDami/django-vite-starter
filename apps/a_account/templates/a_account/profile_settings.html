@@ -6,10 +6,44 @@
 
 <table class="w-full text-sm text-left text-gray-500">
     <tbody>
-        {% if form_error %}
+        {% comment %} {% if form_error %}
         {{form_error}}
+        {% endif %} {% endcomment %}
+        {% if email_form.errors %}
+            <ul class="errorlist">
+                {% for field_errors in email_form.errors.values %}
+                    {% for error in field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% elif username_form.errors %}
+            <ul class="errorlist">
+                {% for field_errors in username_form.errors.values %}
+                    {% for error in field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
         {% endif %}
         <tr class="border-b">
+        {% if username_form %}
+            <th scope="row" class="pt-4 pb-4 text-base font-bold text-gray-900">
+                Username
+            </th>
+            <td id="username" class="pt-4 pb-4 px-6">
+                <form action="{% url 'a_account:profile-username-edit' %}" method="post" class="flex gap-2 text-black" autocomplete="off">
+                    {% csrf_token %}
+                    {% for field in username_form %}{{ field }}{% endfor %}
+                    <button class="block whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark" type="submit">Submit</button>
+                </form>
+            </td>
+            <td class="pt-4 pb-5 px-6">
+                <a href="{% url 'a_account:profile-settings' %}" class="font-medium text-blue-600 hover:underline">
+                    Cancel
+                </a>
+            </td>
+        {% else %}
             <th scope="row" class="pt-4 pb-4 text-base font-bold text-gray-900">
                 Username
             </th>
@@ -26,8 +60,28 @@
                     Edit
                 </a>
             </td>
+        {% endif %}
         </tr>
-        <tr>
+        
+        <tr {% if email_form %} class="border-b" {% endif %}>
+        {% if email_form %}
+            <th scope="row" class="pt-4 pb-1 text-base font-bold text-gray-900">
+                Email address
+            </th>
+            <td id="email-address" class="pt-4 pb-1 px-6">
+                <form action="{% url 'a_account:profile-emailchange' %}" method="post" class="flex gap-2 text-black" autocomplete="off">
+                    {% csrf_token %}
+                    {% for field in email_form %}{{ field }}{% endfor %}
+                    <button class="block whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark" type="submit">Submit</button>
+                </form>
+            </td>
+            <td class="pt-4 pb-1 px-6">
+                <a href="{% url 'a_account:profile-settings' %}" class="font-medium text-blue-600 hover:underline">
+                    Cancel
+                </a>
+            </td>
+        {% else %}
+        
             <th scope="row" class="pt-4 pb-1 text-base font-bold text-gray-900">
                 Email address
             </th>
@@ -60,7 +114,7 @@
                 </a>
             </td>
         </tr>
-
+        {% endif %}
         <tr class="border-b">
             <th scope="row" class="py-4 text-base font-bold text-gray-900">
                 Deactivate Account
