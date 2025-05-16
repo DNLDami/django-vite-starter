@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from apps.a_account.forms import ProfileForm, EmailForm
+from apps.a_account.forms import ProfileForm, EmailForm, UsernameForm
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -44,33 +44,52 @@ def profile_edit_view(request):
 
 @login_required
 def profile_settings_view(request):
-    return render(request, 'a_account/profile_settings.html')
-
-@login_required
-def profile_email_change(request):
-    
-    if request.htmx:
-        form = EmailForm(instance=request.user)
-        return render(request, 'partials/email_form.html', {'form':form})
-    
-    if request.method == 'POST':
-        form = EmailForm(request.POST, instance=request.user)
-        if form.is_valid():
-            # check if the email doesn't exist
-            email = form.cleaned_data['email']
-            if User.objects.filter(email=email).exclude(id=request.user.id).exists():
-                messages.warning(request, f'{email} is not available.')
+    if request.path == reverse('a_account:profile-emailchange'):
+        if request.htmx:
+            form = EmailForm(instance=request.user)
+            return render(request, 'partials/email_form.html', {'form':form})
+        
+        if request.method == 'POST':
+            form = EmailForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                # then signal updates email address and set verified to false on the all auth table
+                
+                # then send confirmation email
+                send_email_confirmation(request, request.user)
                 return redirect('a_account:profile-settings')
-            form.save()
-            # then signal updates email address and set verified to false on the all auth table
-            
-            # then send confirmation email
-            send_email_confirmation(request, request.user)
-            return redirect('a_account:profile-settings')
+            else:
+                if 'email' in form.errors:
+                    form_error = form.errors['email']
+                    return render(request, 'a_account/profile_settings.html', {'form_error':form_error})
+                else:
+                    messages.warning(request, 'Form not valid')
+                    return redirect('a_account:profile-settings')
         else:
-            messages.warning(request, 'Form not valid')
-            return redirect('a_account:profile-settings')
-    return redirect('home')
+            return redirect('home')
+        
+    if request.path == reverse('a_account:profile-username-edit'):
+        if request.htmx:
+            form = UsernameForm(instance=request.user)
+            return render(request, 'partials/username_form.html', {'form':form})
+        
+        if request.method == 'POST':
+            form = UsernameForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                return redirect('a_account:profile-settings')
+            else:
+                if 'username' in form.errors:
+                    form_error = form.errors['username']
+                    return render(request, 'a_account/profile_settings.html', {'form_error':form_error})
+                    
+                else:
+                    messages.warning(request, 'Form not valid')
+                    return redirect('a_account:profile-settings')
+        else:
+            return redirect('home')
+        
+    return render(request, 'a_account/profile_settings.html')
 
 
 @login_required

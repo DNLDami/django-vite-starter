@@ -6,6 +6,27 @@
 
 <table class="w-full text-sm text-left text-gray-500">
     <tbody>
+        {% if form_error %}
+        {{form_error}}
+        {% endif %}
+        <tr class="border-b">
+            <th scope="row" class="pt-4 pb-4 text-base font-bold text-gray-900">
+                Username
+            </th>
+            <td id="username" class="pt-4 pb-4 px-6">
+                {{ user.username }}
+            </td>
+            <td class="pt-4 pb-5 px-6">
+                <a id="username-edit" 
+                    class="font-medium text-blue-600 hover:underline cursor-pointer"
+                    hx-get="{% url 'a_account:profile-username-edit' %}"
+                    hx-target="#username"
+                    hx-swap="innerHTML"
+                >
+                    Edit
+                </a>
+            </td>
+        </tr>
         <tr>
             <th scope="row" class="pt-4 pb-1 text-base font-bold text-gray-900">
                 Email address

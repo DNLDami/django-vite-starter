@@ -17,3 +17,21 @@ class EmailForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email']
+        
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError(f'Email {email} is not available')
+        return email
+        
+class UsernameForm(forms.ModelForm):
+    username = forms.CharField(required=True)
+    class Meta:
+        model = User
+        fields = ['username']
+        
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError(f'Username @{username} is not available')
+        return username

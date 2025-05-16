@@ -10,7 +10,8 @@ urlpatterns = [
     path('deactivate/', views.profile_deactivate_view, name='profile-deactivate-view'),
     path('onboarding/', views.profile_edit_view, name='profile-onboarding'),
     path('settings/', views.profile_settings_view, name='profile-settings'),
-    path('emailchange/', views.profile_email_change, name='profile-emailchange'),
+    path('emailchange/', views.profile_settings_view, name='profile-emailchange'),
+    path('username/edit/', views.profile_settings_view, name='profile-username-edit'),
     path('emailverify/', views.profile_email_verify, name='profile-emailverify'),
 ]
 
