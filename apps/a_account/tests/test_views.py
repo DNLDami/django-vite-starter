@@ -8,6 +8,7 @@ import tempfile
 import os
 from io import BytesIO
 from PIL import Image
+from django.contrib.messages import get_messages
 
 
 @pytest.mark.django_db
@@ -188,4 +189,61 @@ class TestProfileSettingsView:
     def test_other_request_method_to_username_edit_url_redirects_to_home(self, client):
         response = client.put(self.username_edit_url)
         assertRedirects(response, expected_url=reverse('home'))
+        
+
+@pytest.mark.django_db
+class TestProfileEmailVerifyView:
     
+    def test_email_verify_mail_is_sent_for_authenticated_users(self, client, mocker):
+        '''Test email verify mail is sent when request is sent by an authenticated user'''
+        mock_send_mail = mocker.patch('apps.a_account.views.send_email_confirmation')
+        user = User.objects.create_user(username='testuser', password='password123')
+        login_successful = client.login(username='testuser', password='password123')
+        assert login_successful
+        response = client.get(reverse('a_account:profile-emailverify'))
+        mock_send_mail.assert_called_once_with(response.wsgi_request, user)
+        
+    def test_profile_email_verify_view_redirects_for_anonymous_users(self, client):
+        '''Test that unauthenticated users are redirected to login page'''
+        response = client.get(reverse('a_account:profile-emailverify'))
+        assertRedirects(response, expected_url=f'{reverse('account_login')}?next={reverse('a_account:profile-emailverify')}')
+        
+
+@pytest.mark.django_db
+class TestProfileDeactivateView:
+    
+    @pytest.fixture(autouse=True)
+    def setUp(self, request, client):
+        # Skip fixture logic if test is marked with 'skip_autouse'
+        if 'skip_autouse' in request.keywords:
+            yield
+            return
+        self.user = User.objects.create_user(username='testuser', password='password123')
+        login_successful = client.login(username='testuser', password='password123')
+        assert login_successful
+        yield
+    
+    @pytest.mark.skip_autouse
+    def test_profile_deactivate_view_redirects_for_anonymous_users(self, client):
+        '''Test that unauthenticated users are redirected to login page'''
+        response = client.get(reverse('a_account:profile-deactivate-view'))
+        assertRedirects(response, expected_url=f'{reverse('account_login')}?next={reverse('a_account:profile-deactivate-view')}')
+        
+    def test_profile_is_deactivated_for_authenticated_users(self, client):
+        '''Test that when an authenticated user sends a post request the user account is deactivated'''
+        response = client.post(reverse('a_account:profile-deactivate-view'))
+        # assert user account is deactivated
+        self.user.refresh_from_db()
+        assert not self.user.is_active
+        assertRedirects(response, reverse('home'))
+        # Check messages
+        messages = list(get_messages(response.wsgi_request))
+        assert str(messages[0]) == 'Account deactivated'
+        # Verify logout
+        assert '_auth_user_id' not in client.session
+        
+    def test_get_request_returns_template(self, client):
+        '''Test that when a get request is sent to the profile deactivate view it returns the view's template'''
+        response = client.get(reverse('a_account:profile-deactivate-view'))
+        assert response.status_code == 200
+        assertTemplateUsed(response, 'a_account/profile_deactivate.html')
