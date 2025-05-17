@@ -110,3 +110,82 @@ class TestProfileEditView:
         response = client.get(self.profile_onboarding_url)
         assert response.status_code == 200
         assert response.context['onboarding'] is True
+
+@pytest.mark.django_db        
+class TestProfileSettingsView:
+    
+    @pytest.fixture(autouse=True)
+    def setUp(self, client):
+        self.user = User.objects.create_user(username='testuser', password='password123',email='test@email.com')
+        self.login_successful = client.login(username='testuser', password='password123')
+        assert self.login_successful
+        self.emailchange_url = reverse('a_account:profile-emailchange')
+        self.username_edit_url = reverse('a_account:profile-username-edit')
+        
+    def test_get_request_to_emailchange_url_returns_htmx_form(self, client):
+        '''Test that htmx form is rendered on the page when a get request is sent to 'profile-emailchange' url'''
+        # Simulate HTMX request by adding 'HX-Request' header
+        response = client.get(self.emailchange_url, HTTP_HX_REQUEST='true')
+        assertTemplateUsed(response, 'partials/email_form.html')
+        assert 'form' in response.context
+    
+    def test_email_is_updated_when_submitting_valid_form(self, mocker, client):
+        '''Test that email field is updated when user submits a valid form and confirrmation email is sent'''
+        mock_send_mail = mocker.patch('apps.a_account.views.send_email_confirmation')
+        new_email = 'newtest@email.com'
+        response = client.post(self.emailchange_url, data={'email':new_email})
+        # should redirect on success 
+        assertRedirects(response, expected_url=reverse('a_account:profile-settings'))
+        self.user.refresh_from_db()
+        assert self.user.email == new_email
+        # send_email_confirmation should be sent once
+        mock_send_mail.assert_called_once_with(response.wsgi_request, self.user)
+        
+    def test_settings_page_is_rerendered_with_errors_when_submitting_invalid_email_form(self, client, mocker):
+        '''Test that profile settings page is rerendered when an invalid form is submitted and the error message is displayed also in the page and confirmation email is not sent'''
+        mock_send_mail = mocker.patch('apps.a_account.views.send_email_confirmation')
+        # submit an invalid form
+        response = client.post(self.emailchange_url, data={'email':'invalid-email'})
+        assert response.status_code == 200
+        # should render profile_settings.html with form error
+        assertTemplateUsed(response, 'a_account/profile_settings.html')
+        form = response.context.get('email_form')
+        assert form is not None
+        assert form.errors
+        mock_send_mail.assert_not_called()
+        
+    def test_other_request_method_to_emailchange_url_redirects_to_home(self, client):
+        response = client.put(self.emailchange_url)
+        assertRedirects(response, expected_url=reverse('home'))
+        
+    def test_get_request_to_username_edit_url_returns_htmx_form(self, client):
+        '''Test that htmx form is rendered on the page when a get request is sent to username edit url'''
+        # Simulate HTMX request by adding 'HX-Request' header
+        response = client.get(self.username_edit_url, HTTP_HX_REQUEST='true')
+        assertTemplateUsed(response, 'partials/username_form.html')
+        assert 'form' in response.context
+        
+    def test_username_is_updated_when_submitting_valid_form(self, client):
+        '''Test that username field is updated when user submits a valid form '''
+        new_username = 'newtestuser'
+        response = client.post(self.username_edit_url, data={'username':new_username})
+        # should redirect on success 
+        assertRedirects(response, expected_url=reverse('a_account:profile-settings'))
+        self.user.refresh_from_db()
+        assert self.user.username == new_username
+    
+    def test_settings_page_is_rerendered_with_errors_when_submitting_invalid_username_form(self, client):
+        '''Test that profile settings page is rerendered when an invalid username form is submitted and the error message is displayed also in the page '''
+        # submit an invalid form
+        response = client.post(self.username_edit_url, data={'username':'invalid-username'})
+        assert response.status_code == 200
+        # should render profile_settings.html with form error
+        assertTemplateUsed(response, 'a_account/profile_settings.html')
+        form = response.context.get('username_form')
+        assert form is not None
+        assert 'username' in form.errors
+    
+    def test_other_request_method_to_username_edit_url_redirects_to_home(self, client):
+        response = client.put(self.username_edit_url)
+        assertRedirects(response, expected_url=reverse('home'))
+    

@@ -1,6 +1,7 @@
 from django import forms
 from apps.a_account.models import Profile
 from django.contrib.auth.models import User
+import re
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -22,6 +23,12 @@ class EmailForm(forms.ModelForm):
         email = self.cleaned_data['email']
         if User.objects.filter(email=email).exclude(id=self.instance.id).exists():
             raise forms.ValidationError(f'Email {email} is not available')
+        pattern = r'^[a-zA-Z0-9]+@[a-zA-Z0-9.]+$'
+
+        if not re.match(pattern, email):
+            raise forms.ValidationError(
+                "Email must contain only letters and digits, with a single '@' symbol."
+            )
         return email
         
 class UsernameForm(forms.ModelForm):
@@ -34,4 +41,6 @@ class UsernameForm(forms.ModelForm):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username).exclude(id=self.instance.id).exists():
             raise forms.ValidationError(f'Username @{username} is not available')
+        if not re.match(r'^\w+$', username):
+            raise forms.ValidationError('Username can only contain letters, digits, and underscores.')
         return username
