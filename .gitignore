@@ -4,6 +4,7 @@ node_modules/
 
 # Django static files
 staticfiles/
+media/
 
 # Python cache and environment
 __pycache__/

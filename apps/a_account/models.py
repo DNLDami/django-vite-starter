@@ -8,6 +8,7 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='avatars/', null=True, blank=True)
     displayname = models.CharField(max_length=25, null=True, blank=True)
     info = models.TextField(null=True, blank=True)
+    is_active = models.BooleanField(default=True, help_text="Designates whether this user is active.")
     
     def __str__(self):
         return str(self.user)

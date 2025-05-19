@@ -9,6 +9,7 @@ import os
 from io import BytesIO
 from PIL import Image
 from django.contrib.messages import get_messages
+from apps.a_account.models import Profile
 
 
 @pytest.mark.django_db
@@ -81,6 +82,9 @@ class TestProfileEditView:
         
     def test_update_profile_when_submitting_valid_form_and_redirects_to_profile_view(self, client):
         '''Test that profile is updated when the form is submitted with valid data and user is redirected to profile view'''
+        # Ensure profile is active to avoid middleware redirects
+        self.user.profile.is_active = True
+        self.user.profile.save()
         login_successful = client.login(username=self.user.username, password='password123')
         assert login_successful
         
@@ -210,7 +214,7 @@ class TestProfileEmailVerifyView:
         
 
 @pytest.mark.django_db
-class TestProfileDeactivateView:
+class TestProfileActiveView:
     
     @pytest.fixture(autouse=True)
     def setUp(self, request, client):
@@ -224,17 +228,24 @@ class TestProfileDeactivateView:
         yield
     
     @pytest.mark.skip_autouse
-    def test_profile_deactivate_view_redirects_for_anonymous_users(self, client):
+    def test_profile_active_view_redirects_for_anonymous_users(self, client):
         '''Test that unauthenticated users are redirected to login page'''
         response = client.get(reverse('a_account:profile-deactivate-view'))
         assertRedirects(response, expected_url=f'{reverse('account_login')}?next={reverse('a_account:profile-deactivate-view')}')
+        response = client.get(reverse('a_account:profile-activate-view'))
+        assertRedirects(response, expected_url=f'{reverse('account_login')}?next={reverse('a_account:profile-activate-view')}')
         
-    def test_profile_is_deactivated_for_authenticated_users(self, client):
-        '''Test that when an authenticated user sends a post request the user account is deactivated'''
+    def test_profile_is_deactivated_and_reactivated_for_authenticated_users(self, client):
+        '''
+        Test that when an authenticated user sends a post request to 
+        profile-deactivate-view the user account is deactivated and when 
+        an authenticated user sends a post request to profile-activate-view
+        '''
+        # account deactivation
         response = client.post(reverse('a_account:profile-deactivate-view'))
         # assert user account is deactivated
         self.user.refresh_from_db()
-        assert not self.user.is_active
+        assert not self.user.profile.is_active
         assertRedirects(response, reverse('home'))
         # Check messages
         messages = list(get_messages(response.wsgi_request))
@@ -242,8 +253,39 @@ class TestProfileDeactivateView:
         # Verify logout
         assert '_auth_user_id' not in client.session
         
+        # account reactivation
+        login_successful = client.login(username='testuser', password='password123')
+        assert login_successful
+        # all requests ahould be redirected to the profile activation page
+        response = client.get(reverse('home'))
+        assertRedirects(response, expected_url=reverse('a_account:profile-activate-view'))
+        
+        response = client.post(reverse('a_account:profile-activate-view'))
+        # assert user account is reactivated
+        self.user.refresh_from_db()
+        assert self.user.profile.is_active
+        assertRedirects(response, reverse('home'))
+        # Check messages
+        messages = list(get_messages(response.wsgi_request))
+        assert str(messages[0]) == 'Account reactivated'
+        # Verify login
+        assert '_auth_user_id' in client.session
+        
     def test_get_request_returns_template(self, client):
-        '''Test that when a get request is sent to the profile deactivate view it returns the view's template'''
+        '''
+        Test that when a get request is sent to the profile deactivate view 
+        it returns the view's template
+        '''
         response = client.get(reverse('a_account:profile-deactivate-view'))
         assert response.status_code == 200
         assertTemplateUsed(response, 'a_account/profile_deactivate.html')
+    
+    def test_active_profile_is_redirected_to_home(self, client):
+        '''
+        Test that when a user with an active profile sends a request to 
+        profile-activate-view they are redirected to home
+        '''
+        response = client.post(reverse('a_account:profile-activate-view'))
+        assertRedirects(response, reverse('home'))
+    
+    
