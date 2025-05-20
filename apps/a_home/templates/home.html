@@ -1,10 +1,213 @@
 {% extends "layouts\blank.html" %}
 
-{% block content %}
 
-<div class="max-w-4xl mx-auto px-8 py-24">
-    <h1>New Project</h1>
+{% block content %}
+<!-- <style>
+    /* Tooltip container */
+    .tooltip {
+        position: relative;
+        cursor: pointer;
+    }
+
+    /* Tooltip text */
+    .tooltip .tooltip-text {
+        visibility: hidden;
+        width: max-content;
+        background-color: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        text-align: center;
+        border-radius: 0.375rem;
+        /* rounded-md */
+        padding: 0.25rem 0.5rem;
+        position: absolute;
+        z-index: 10;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 0.875rem;
+        /* text-sm */
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    /* Show tooltip on hover */
+    .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+    }
+</style> -->
+<h1 class="text-2xl font-bold mb-6 text-center mt-8">Dark Color Palette Grid</h1>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+    <!-- Color block template -->
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+        style="background-color: var(--color-neutral-950); color: var(--color-white);">
+        <div class="w-24 h-24 rounded-lg border border-gray-700 mb-4"
+            style="background-color: var(--color-neutral-950)"></div>
+        <div class="font-semibold text-lg select-none">--color-surface</div>
+        <div class="text-sm font-mono text-gray-300 select-text">#0a0a0a</div>
+        <span class="tooltip-text">#0a0a0a</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+        style="background-color: var(--color-neutral-900); color: var(--color-white);">
+        <div class="w-24 h-24 rounded-lg border border-gray-700 mb-4"
+            style="background-color: var(--color-neutral-900)"></div>
+        <div class="font-semibold text-lg select-none">--color-surface-alt</div>
+        <div class="text-sm font-mono text-gray-300 select-text">#1a1a1a</div>
+        <span class="tooltip-text">#1a1a1a</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+        style="background-color: var(--color-neutral-300); color: var(--color-black);">
+        <div class="w-24 h-24 rounded-lg border border-gray-400 mb-4"
+            style="background-color: var(--color-neutral-300)"></div>
+        <div class="font-semibold text-lg select-none">--color-on-surface</div>
+        <div class="text-sm font-mono text-gray-700 select-text">#d1d5db</div>
+        <span class="tooltip-text">#d1d5db</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer border border-gray-300"
+        style="background-color: var(--color-white); color: var(--color-black);">
+        <div class="w-24 h-24 rounded-lg mb-4 border border-gray-300" style="background-color: var(--color-white)">
+        </div>
+        <div class="font-semibold text-lg select-none">--color-on-surface-strong</div>
+        <div class="text-sm font-mono text-gray-700 select-text">#ffffff</div>
+        <span class="tooltip-text">#ffffff</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer border border-gray-300"
+        style="background-color: var(--color-white); color: var(--color-black);">
+        <div class="w-24 h-24 rounded-lg mb-4 border border-gray-300" style="background-color: var(--color-white)">
+        </div>
+        <div class="font-semibold text-lg select-none">--color-primary</div>
+        <div class="text-sm font-mono text-gray-700 select-text">#ffffff</div>
+        <span class="tooltip-text">#ffffff</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+        style="background-color: var(--color-black); color: var(--color-white);">
+        <div class="w-24 h-24 rounded-lg border border-gray-900 mb-4" style="background-color: var(--color-black)">
+        </div>
+        <div class="font-semibold text-lg select-none">--color-on-primary</div>
+        <div class="text-sm font-mono text-gray-300 select-text">#000000</div>
+        <span class="tooltip-text">#000000</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+        style="background-color: var(--color-neutral-300); color: var(--color-black);">
+        <div class="w-24 h-24 rounded-lg border border-gray-400 mb-4"
+            style="background-color: var(--color-neutral-300)"></div>
+        <div class="font-semibold text-lg select-none">--color-secondary</div>
+        <div class="text-sm font-mono text-gray-700 select-text">#d1d5db</div>
+        <span class="tooltip-text">#d1d5db</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+        style="background-color: var(--color-black); color: var(--color-white);">
+        <div class="w-24 h-24 rounded-lg border border-gray-900 mb-4" style="background-color: var(--color-black)">
+        </div>
+        <div class="font-semibold text-lg select-none">--color-on-secondary</div>
+        <div class="text-sm font-mono text-gray-300 select-text">#000000</div>
+        <span class="tooltip-text">#000000</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+        style="background-color: var(--color-neutral-700); color: var(--color-white);">
+        <div class="w-24 h-24 rounded-lg border border-gray-700 mb-4"
+            style="background-color: var(--color-neutral-700)"></div>
+        <div class="font-semibold text-lg select-none">--color-outline</div>
+        <div class="text-sm font-mono text-gray-300 select-text">#4a4a4a</div>
+        <span class="tooltip-text">#4a4a4a</span>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+        style="background-color: var(--color-neutral-300); color: var(--color-black);">
+        <div class="w-24 h-24 rounded-lg border border-gray-400 mb-4"
+            style="background-color: var(--color-neutral-300)"></div>
+        <div class="font-semibold text-lg select-none">--color-outline-strong</div>
+        <div class="text-sm font-mono text-gray-700 select-text">#d1d5db</div>
+        <span class="tooltip-text">#d1d5db</span>
+    </div>
 </div>
+
+
+
+
+
+
+
+
+<h1 class="text-2xl font-bold mb-6 text-center mt-8">Light Color Palette Grid</h1>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-20">
+    <!-- Color Item Template -->
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#ffffff"></div>
+        <div class="text-center font-semibold">--color-surface</div>
+        <div class="text-sm text-gray-600">#ffffff (White)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#fafafa"></div>
+        <div class="text-center font-semibold">--color-surface-alt</div>
+        <div class="text-sm text-gray-600">#fafafa (Neutral 50)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#757575"></div>
+        <div class="text-center font-semibold">--color-on-surface</div>
+        <div class="text-sm text-gray-600">#757575 (Neutral 600)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#212121"></div>
+        <div class="text-center font-semibold">--color-on-surface-strong</div>
+        <div class="text-sm text-gray-600">#212121 (Neutral 900)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#000000"></div>
+        <div class="text-center font-semibold">--color-primary</div>
+        <div class="text-sm text-gray-600">#000000 (Black)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#f5f5f5"></div>
+        <div class="text-center font-semibold">--color-on-primary</div>
+        <div class="text-sm text-gray-600">#f5f5f5 (Neutral 100)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#424242"></div>
+        <div class="text-center font-semibold">--color-secondary</div>
+        <div class="text-sm text-gray-600">#424242 (Neutral 800)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#ffffff"></div>
+        <div class="text-center font-semibold">--color-on-secondary</div>
+        <div class="text-sm text-gray-600">#ffffff (White)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#e0e0e0"></div>
+        <div class="text-center font-semibold">--color-outline</div>
+        <div class="text-sm text-gray-600">#e0e0e0 (Neutral 300)</div>
+    </div>
+
+    <div class="tooltip rounded-lg shadow-lg p-6 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+        <div class="w-24 h-24 rounded border border-gray-300" style="background-color:#424242"></div>
+        <div class="text-center font-semibold">--color-outline-strong</div>
+        <div class="text-sm text-gray-600">#424242 (Neutral 800)</div>
+    </div>
+</div>
+
+
+
+
+
 
 
 {% endblock content %}

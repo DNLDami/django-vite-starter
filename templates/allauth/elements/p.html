@@ -1,0 +1,6 @@
+{% comment %} djlint:off {% endcomment %}
+{% load allauth %}
+<p {% if attrs.class %}class="{{ attrs.class }}"{% endif %}>
+    {% slot %}
+    {% endslot %}
+</p>

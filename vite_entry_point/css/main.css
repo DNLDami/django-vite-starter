@@ -13,9 +13,11 @@
     --color-on-secondary: var(--color-white);
     --color-outline: var(--color-neutral-300);
     --color-outline-strong: var(--color-neutral-800);
+    --color-surface-dark-alt: var(--color-neutral-900);
+    --color-theme-bg: var(--color-white);
 
     /* dark theme */
-    --color-surface-dark: var(--color-neutral-950);
+    /* --color-surface-dark: var(--color-neutral-950);
     --color-surface-dark-alt: var(--color-neutral-900);
     --color-on-surface-dark: var(--color-neutral-300);
     --color-on-surface-dark-strong: var(--color-white);
@@ -24,7 +26,7 @@
     --color-secondary-dark: var(--color-neutral-300);
     --color-on-secondary-dark: var(--color-black);
     --color-outline-dark: var(--color-neutral-700);
-    --color-outline-dark-strong: var(--color-neutral-300);
+    --color-outline-dark-strong: var(--color-neutral-300); */
 
     /* shared colors */
     --color-info: var(--color-sky-500);
@@ -40,6 +42,8 @@
     --radius-radius: var(--radius-sm);
 }
 
+
+
 [x-cloak] { 
     display: none !important; 
 }
@@ -52,6 +56,24 @@ h2 {
 p {
     @apply mb-4
 }
+
+ .dark{
+        /* dark theme */
+        --color-surface: var(--color-neutral-950);
+        --color-on-surface: var(--color-neutral-300);
+        --color-on-surface-strong: var(--color-white);
+        --color-primary: var(--color-white);
+        --color-on-primary: var(--color-black);
+        --color-secondary: var(--color-neutral-300);
+        --color-on-secondary: var(--color-black);
+        --color-outline: var(--color-neutral-700);
+        --color-outline-strong: var(--color-neutral-300);
+        --color-surface-alt: var(--color-neutral-900);
+        --color-surface-dark-alt: var(--color-neutral-900);
+        --color-theme-bg: var(--color-neutral-800);
+        --drop-shadow-2xl: rgba(255, 255, 255, 0.1);
+    }
+
 
 .allauth content a {
     @apply underline underline-offset-2
@@ -66,22 +88,38 @@ p {
     @apply block
 }
 .allauth .helptext {
-    @apply block mt-4
+    @apply block mt-4 text-on-surface
 }
-.allauth form > button{
+/* .allauth form > button{
     @apply whitespace-nowrap rounded-radius bg-danger border border-danger px-4 py-2 text-sm font-medium tracking-wide text-on-danger transition hover:opacity-75 text-center cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-danger dark:border-danger dark:text-on-danger dark:focus-visible:outline-danger
-}
+} */
 input[type=file] {
-    @apply bg-white pl-0
+    @apply w-full overflow-clip rounded-radius border border-outline bg-surface-alt/50 text-sm text-on-surface file:mr-4 file:border-none file:bg-surface-alt file:px-4 file:py-2 file:font-medium file:text-on-surface-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:bg-surface-dark-alt/50  dark:file:bg-surface-dark-alt
 }
+/* w-full rounded-lg py-4 px-5 bg-gray-100 */
 .textarea, textarea, input {
-    @apply w-full rounded-lg py-4 px-5 bg-gray-100
+    @apply w-full rounded-radius py-4 px-5 border border-outline bg-surface-alt/50 text-on-surface
 }
 .errorlist li {
     @apply p-1 pl-4 border-l-red-500 border-l-4 border-solid mb-2 text-red-500
 }
 label[for="id_remember"] {
-    @apply inline-block w-auto mr-2
+    @apply inline-block w-auto mr-2 text-on-surface
+}
+label[for="id_login"] {
+    @apply hidden
+}
+label[for="id_email"] {
+    @apply hidden
+}
+label[for="id_username"] {
+    @apply hidden
+}
+label[for="id_password1"] {
+    @apply hidden
+}
+label[for="id_password2"] {
+    @apply hidden
 }
 input[name="remember"] {
     @apply w-auto

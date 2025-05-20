@@ -1,0 +1,25 @@
+{% extends "allauth/layouts/base.html" %}
+{% load allauth i18n %}
+{% block head_title %}
+    {% trans "Sign Out" %}
+{% endblock head_title %}
+{% block content %}
+    {% element h1 class="text-on-surface" %}
+        {% trans "Log Out" %}
+    {% endelement %}
+    {% element p class="text-on-surface" %}
+        {% trans 'Are you sure you want to log out?' %}
+    {% endelement %}
+    {% url 'account_logout' as action_url %}
+    {% element form method="post" action=action_url no_visible_fields=True %}
+        {% slot body %}
+            {% csrf_token %}
+            {{ redirect_field }}
+        {% endslot %}
+        {% slot actions %}
+            {% element button type="submit" class="whitespace-nowrap rounded-radius bg-danger border border-danger px-4 py-2 text-sm font-medium tracking-wide text-on-danger transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-danger dark:border-danger dark:text-on-danger dark:focus-visible:outline-danger" %}
+                {% trans 'Log Out' %}
+            {% endelement %}
+        {% endslot %}
+    {% endelement %}
+{% endblock content %}

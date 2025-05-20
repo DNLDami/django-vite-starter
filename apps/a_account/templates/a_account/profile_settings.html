@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1 class="mb-8">Account Settings</h1>
+<h1 class="mb-8 text-on-surface">Account Settings</h1>
 
 <table class="w-full text-sm text-left text-gray-500">
     <tbody>
@@ -28,7 +28,7 @@
         {% endif %}
         <tr class="border-b">
         {% if username_form %}
-            <th scope="row" class="pt-4 pb-4 text-base font-bold text-gray-900">
+            <th scope="row" class="pt-4 pb-4 text-base font-bold text-on-surface">
                 Username
             </th>
             <td id="username" class="pt-4 pb-4 px-6">
@@ -44,7 +44,7 @@
                 </a>
             </td>
         {% else %}
-            <th scope="row" class="pt-4 pb-4 text-base font-bold text-gray-900">
+            <th scope="row" class="pt-4 pb-4 text-base font-bold text-on-surface">
                 Username
             </th>
             <td id="username" class="pt-4 pb-4 px-6">
@@ -65,7 +65,7 @@
         
         <tr {% if email_form %} class="border-b" {% endif %}>
         {% if email_form %}
-            <th scope="row" class="pt-4 pb-1 text-base font-bold text-gray-900">
+            <th scope="row" class="pt-4 pb-1 text-base font-bold text-on-surface">
                 Email address
             </th>
             <td id="email-address" class="pt-4 pb-1 px-6">
@@ -82,7 +82,7 @@
             </td>
         {% else %}
         
-            <th scope="row" class="pt-4 pb-1 text-base font-bold text-gray-900">
+            <th scope="row" class="pt-4 pb-1 text-base font-bold text-on-surface">
                 Email address
             </th>
             <td id="email-address" class="pt-4 pb-1 px-6">
@@ -116,7 +116,7 @@
         </tr>
         {% endif %}
         <tr class="border-b">
-            <th scope="row" class="py-4 text-base font-bold text-gray-900">
+            <th scope="row" class="py-4 text-base font-bold text-on-surface">
                 Deactivate Account
             </th>
             <td class="px-6 py-4">
